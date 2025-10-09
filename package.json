@@ -64,8 +64,7 @@
     "rest",
     "proxy",
     "nestjs",
-    "typescript",
-    "dag"
+    "typescript"
   ],
   "repository": {
     "type": "git",
