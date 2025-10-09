@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   hoosat-proxy:
-    image: ghcr.io/${GITHUB_REPOSITORY}:latest
+    image: ghcr.io/namp88/hoosat-proxy:latest
     container_name: hoosat-proxy
     restart: unless-stopped
     ports:
