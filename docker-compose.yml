@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  hoosat-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hoosat-proxy
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      # Server Configuration
+      PORT: ${PORT:-3000}
+
+      # Hoosat Node Configuration
+      HOOSAT_HOST: ${HOOSAT_HOST:-127.0.0.1}
+      HOOSAT_PORT: ${HOOSAT_PORT:-42420}
+      HOOSAT_TIMEOUT: ${HOOSAT_TIMEOUT:-10000}
+
+      # Event Manager Configuration
+      HOOSAT_MAX_RECONNECT_ATTEMPTS: ${HOOSAT_MAX_RECONNECT_ATTEMPTS:-5}
+      HOOSAT_RECONNECT_DELAY: ${HOOSAT_RECONNECT_DELAY:-2000}
+      HOOSAT_MAX_SUBSCRIBED_ADDRESSES: ${HOOSAT_MAX_SUBSCRIBED_ADDRESSES:-1000}
+      HOOSAT_DEBUG: ${HOOSAT_DEBUG:-false}
+
+      # API Configuration
+      API_PREFIX: ${API_PREFIX:-api}
+      API_VERSION: ${API_VERSION:-v1}
+
+    # Uncomment if Hoosat node is also in Docker
+    # networks:
+    #   - hoosat-network
+
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/v1/node/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# Uncomment if you need a custom network
+# networks:
+#   hoosat-network:
+#     driver: bridge
