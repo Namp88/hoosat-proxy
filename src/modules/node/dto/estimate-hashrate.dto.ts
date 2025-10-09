@@ -9,19 +9,18 @@ export class EstimateHashrateDto {
   @ApiPropertyOptional({
     description: 'Number of blocks to analyze',
     default: 1000,
-    minimum: 1,
+    minimum: 1000,
     maximum: 10000,
   })
-  @IsOptional()
   @IsInt()
-  @Min(1)
+  @Min(1000)
   @Max(10000)
   @Type(() => Number)
-  windowSize?: number = 1000;
+  windowSize: number = 1000;
 
   @ApiPropertyOptional({
     description: 'Starting block hash (64 hex characters)',
-    example: 'a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd',
+    example: '840309673af21c5b31a6ccdd579299abcb5665a042b0bfb624c08d99222c9d0e',
   })
   @IsOptional()
   @IsString()

@@ -26,7 +26,6 @@ export class HoosatClientService implements OnModuleInit, OnModuleDestroy {
         host: config.host,
         port: config.port,
         timeout: config.timeout,
-        events: config.events,
       });
 
       // Test connection

@@ -26,12 +26,14 @@ export class NodeController {
       example: {
         success: true,
         data: {
-          p2pId: 'abc123...',
+          p2pId: 'a2bb90a5d6c686ebc5d933e157a28263',
           mempoolSize: '45',
           serverVersion: '0.1.0',
           isUtxoIndexed: true,
           isSynced: true,
         },
+        timestamp: 1760025889814,
+        path: '/api/v1/node/info',
       },
     },
   })
@@ -54,8 +56,10 @@ export class NodeController {
       example: {
         success: true,
         data: {
-          blueScore: '123456',
+          blueScore: '76311430',
         },
+        timestamp: 1760025889814,
+        path: '/api/v1/node/blue-score',
       },
     },
   })
@@ -66,7 +70,7 @@ export class NodeController {
   /**
    * Estimate network hashrate
    */
-  @Get('hashrate')
+  @Get('estimate-hashrate')
   @ApiOperation({
     summary: 'Estimate network hashrate',
     description: 'Estimates the network hashrate over a specified window of blocks',
@@ -80,6 +84,8 @@ export class NodeController {
         data: {
           networkHashesPerSecond: '1500000000000',
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/node/estimate-hashrate?windowSize=1000',
       },
     },
   })
@@ -102,9 +108,11 @@ export class NodeController {
       example: {
         success: true,
         data: {
-          circulatingSupply: '5000000000000000',
-          maxSupply: '10000000000000000',
+          circulatingSupply: '478778043973829854',
+          maxSupply: '1710000000000000000',
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/node/coin-supply',
       },
     },
   })
@@ -129,6 +137,8 @@ export class NodeController {
         data: {
           healthy: true,
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/node/health',
       },
     },
   })

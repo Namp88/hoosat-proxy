@@ -16,7 +16,7 @@ export class NetworkController {
   @Get('info')
   @ApiOperation({
     summary: 'Get current network',
-    description: 'Returns the network name that the node is currently running on (mainnet, testnet, simnet, devnet)',
+    description: 'Returns the network name that the node is currently running on (mainnet, testnet)',
   })
   @ApiResponse({
     status: 200,
@@ -25,7 +25,7 @@ export class NetworkController {
       example: {
         success: true,
         data: {
-          currentNetwork: 'hoosat-mainnet',
+          currentNetwork: 'mainnet',
         },
       },
     },

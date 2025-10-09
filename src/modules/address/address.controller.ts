@@ -22,7 +22,7 @@ export class AddressController {
   @ApiParam({
     name: 'address',
     description: 'Hoosat address',
-    example: 'hoosat:qz7ulu8mmmul6hdcnssmjnt28h2xfer8dz9nfqamvvh86ngef4q8dvzxcjdqe',
+    example: 'hoosat:qz8hek32xdryqstk6ptvvfzmrsrns95h7nd2r9f55epnxx7eummegyxa7f2lu',
   })
   @ApiResponse({
     status: 200,
@@ -33,12 +33,10 @@ export class AddressController {
         data: {
           balance: '1000000000',
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/address/{{address}}/balance',
       },
     },
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid address format',
   })
   async getBalance(@Param('address') address: string) {
     return this.hoosatClient.getClient().getBalance(address);
@@ -70,12 +68,10 @@ export class AddressController {
             },
           ],
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/address/balances',
       },
     },
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid addresses format or too many addresses',
   })
   async getBalances(@Body() dto: AddressesDto) {
     return this.hoosatClient.getClient().getBalancesByAddresses(dto.addresses);
@@ -131,12 +127,10 @@ export class AddressController {
             },
           ],
         },
+        timestamp: 1760026085383,
+        path: '/api/v1/address/utxos',
       },
     },
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid addresses format or too many addresses',
   })
   async getUtxos(@Body() dto: AddressesDto) {
     return this.hoosatClient.getClient().getUtxosByAddresses(dto.addresses);

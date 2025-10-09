@@ -8,8 +8,8 @@ export class AddressesDto {
   @ApiProperty({
     description: 'Array of Hoosat addresses (max 1000)',
     example: [
-      'hoosat:qz7ulu8mmmul6hdcnssmjnt28h2xfer8dz9nfqamvvh86ngef4q8dvzxcjdqe',
-      'hoosat:qyp4ka9p6mlc2gfrd08m5zau9q4jt4mj93k3gnq9f0x4zcwglmqkgxgjhqk7g',
+      'hoosat:qz8hek32xdryqstk6ptvvfzmrsrns95h7nd2r9f55epnxx7eummegyxa7f2lu',
+      'hoosat:qp5f03mxekxu29zd3m677s3am5a0pgkk3d0n8qdnehcy2vrpzw2kvwzk44jvp',
     ],
     type: [String],
   })

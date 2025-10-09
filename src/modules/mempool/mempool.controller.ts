@@ -33,8 +33,30 @@ export class MempoolController {
         data: {
           transaction: {
             transactionId: 'abc123...',
-            inputs: [],
-            outputs: [],
+            inputs: [
+              {
+                previousOutpoint: {
+                  transactionId: 'string',
+                  index: 0,
+                },
+                signatureScript: 'string',
+                sequence: 'string',
+                sigOpCount: 0,
+              },
+            ],
+            outputs: [
+              {
+                amount: 'string',
+                scriptPublicKey: {
+                  scriptPublicKey: 'string',
+                  version: 0,
+                },
+                verboseData: {
+                  scriptPublicKeyType: 'string',
+                  scriptPublicKeyAddress: 'string',
+                },
+              },
+            ],
             version: 0,
             lockTime: '0',
             subnetworkId: '0000000000000000000000000000000000000000',
@@ -80,27 +102,36 @@ export class MempoolController {
             {
               transaction: {
                 transactionId: 'abc123...',
-                inputs: [],
-                outputs: [],
+                inputs: [
+                  {
+                    previousOutpoint: {
+                      transactionId: 'string',
+                      index: 0,
+                    },
+                    signatureScript: 'string',
+                    sequence: 'string',
+                    sigOpCount: 0,
+                  },
+                ],
+                outputs: [
+                  {
+                    amount: 'string',
+                    scriptPublicKey: {
+                      scriptPublicKey: 'string',
+                      version: 0,
+                    },
+                    verboseData: {
+                      scriptPublicKeyType: 'string',
+                      scriptPublicKeyAddress: 'string',
+                    },
+                  },
+                ],
                 version: 0,
                 lockTime: '0',
                 subnetworkId: '0000000000000000000000000000000000000000',
               },
               fee: '1000',
               mass: '1500',
-              isOrphan: false,
-            },
-            {
-              transaction: {
-                transactionId: 'def456...',
-                inputs: [],
-                outputs: [],
-                version: 0,
-                lockTime: '0',
-                subnetworkId: '0000000000000000000000000000000000000000',
-              },
-              fee: '2000',
-              mass: '2000',
               isOrphan: false,
             },
           ],
@@ -169,10 +200,6 @@ export class MempoolController {
         },
       },
     },
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid addresses format or too many addresses',
   })
   async getMempoolEntriesByAddresses(@Body() dto: GetMempoolEntriesByAddressesDto) {
     return this.hoosatClient

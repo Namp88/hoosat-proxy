@@ -9,7 +9,7 @@ interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
-  timestamp: string;
+  timestamp: number;
   path: string;
 }
 
@@ -34,7 +34,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ApiResponse<T>
           return {
             success: true,
             data: data.result,
-            timestamp: new Date().toISOString(),
+            timestamp: Date.now(),
             path,
           };
         }
@@ -43,7 +43,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ApiResponse<T>
         return {
           success: true,
           data,
-          timestamp: new Date().toISOString(),
+          timestamp: Date.now(),
           path,
         };
       }),

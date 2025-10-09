@@ -31,18 +31,6 @@ export class TransactionController {
       },
     },
   })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid transaction format or transaction rejected by network',
-    schema: {
-      example: {
-        success: false,
-        error: 'Transaction validation failed: insufficient funds',
-        timestamp: '2025-01-10T12:00:00.000Z',
-        path: '/api/v1/transaction/submit',
-      },
-    },
-  })
   async submitTransaction(@Body() dto: SubmitTransactionDto) {
     const { allowOrphan, ...transaction } = dto;
     return this.hoosatClient.getClient().submitTransaction(transaction as any, allowOrphan ?? false);
