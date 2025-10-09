@@ -1,10 +1,6 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 
-/**
- * Root application controller
- * Handles root path requests
- */
 @ApiExcludeController()
 @Controller()
 export class AppController {
@@ -16,14 +12,11 @@ export class AppController {
     return res.redirect('/docs');
   }
 
-  /**
-   * API information endpoint
-   */
   @Get('info')
   getApiInfo() {
     return {
       name: 'Hoosat Proxy API',
-      version: '1.0.0',
+      version: '0.1.0',
       description: 'Public REST API proxy for Hoosat blockchain',
       documentation: '/docs',
       endpoints: {

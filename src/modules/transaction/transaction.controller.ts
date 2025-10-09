@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { HoosatClientService } from '../../shared/services/hoosat-client.service';
+import { HoosatClientService } from '@client/client.service';
 import { SubmitTransactionDto } from './dto/submit-transaction.dto';
 
 /**

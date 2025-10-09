@@ -165,7 +165,7 @@ async exampleMethod() {
     - Proper HTTP decorator (`@Get`, `@Post`, etc)
     - Swagger decorators (`@ApiOperation`, `@ApiResponse`)
     - Validation decorators on parameters
-4. Use `HoosatClientService` to call SDK methods
+4. Use `ClientService` to call SDK methods
 5. Test the endpoint
 6. Update documentation
 

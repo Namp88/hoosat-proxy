@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { HoosatClientService } from '../../shared/services/hoosat-client.service';
+import { HoosatClientService } from '@client/client.service';
 import { EstimateHashrateDto } from './dto/estimate-hashrate.dto';
 
 /**

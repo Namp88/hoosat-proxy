@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { HoosatClientService } from '../../shared/services/hoosat-client.service';
-import { GetBlockDto, GetBlocksDto } from './dto/get-block.dto';
+import { HoosatClientService } from '@client/client.service';
+import { GetBlocksDto } from './dto/get-block.dto';
 
 /**
  * Blockchain operations endpoints

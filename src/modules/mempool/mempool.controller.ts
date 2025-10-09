@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { HoosatClientService } from '../../shared/services/hoosat-client.service';
-import { GetMempoolEntryDto, GetMempoolEntriesDto, GetMempoolEntriesByAddressesDto } from './dto/mempool.dto';
+import { HoosatClientService } from '@client/client.service';
+import { GetMempoolEntriesDto, GetMempoolEntriesByAddressesDto } from './dto/mempool.dto';
 
 /**
  * Mempool operations endpoints

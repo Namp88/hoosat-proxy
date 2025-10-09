@@ -20,6 +20,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@client/*": ["src/client/*"],
+      "@config/*": ["src/config/*"],
+      "@filters/*": ["src/filters/*"],
+      "@interceptors/*": ["src/interceptors/*"],
+      "@modules/*": ["src/modules/*"]
+    }
   }
 }

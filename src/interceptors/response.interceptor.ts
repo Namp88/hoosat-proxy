@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 /**
  * Response format for all API endpoints
  */
-export interface ApiResponse<T> {
+interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
