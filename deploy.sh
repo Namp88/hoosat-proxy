@@ -6,29 +6,38 @@ echo "🚀 Starting deployment..."
 # Navigate to project directory
 cd /home/ubuntu/prod/hoosat-proxy
 
+# Check if user is in docker group, if not use sudo
+if groups | grep -q '\bdocker\b'; then
+    DOCKER_CMD="docker"
+    COMPOSE_CMD="docker-compose"
+else
+    DOCKER_CMD="sudo docker"
+    COMPOSE_CMD="sudo docker-compose"
+fi
+
 # Pull latest image
 echo "📦 Pulling latest Docker image..."
-docker-compose -f docker-compose.prod.yml pull
+$COMPOSE_CMD -f docker-compose.prod.yml pull
 
 # Stop and remove old container
 echo "🛑 Stopping old container..."
-docker-compose -f docker-compose.prod.yml down
+$COMPOSE_CMD -f docker-compose.prod.yml down
 
 # Start new container
 echo "▶️  Starting new container..."
-docker-compose -f docker-compose.prod.yml up -d
+$COMPOSE_CMD -f docker-compose.prod.yml up -d
 
 # Wait for health check
 echo "⏳ Waiting for service to be healthy..."
 sleep 10
 
 # Check if container is running
-if [ "$(docker ps -q -f name=hoosat-proxy)" ]; then
+if [ "$($DOCKER_CMD ps -q -f name=hoosat-proxy)" ]; then
     echo "✅ Deployment successful!"
 
     # Show container logs
     echo "📋 Recent logs:"
-    docker logs --tail 50 hoosat-proxy
+    $DOCKER_CMD logs --tail 50 hoosat-proxy
 else
     echo "❌ Deployment failed! Container is not running."
     exit 1
@@ -36,6 +45,6 @@ fi
 
 # Clean up old images
 echo "🧹 Cleaning up old images..."
-docker image prune -f
+$DOCKER_CMD image prune -f
 
 echo "🎉 Deployment completed!"
