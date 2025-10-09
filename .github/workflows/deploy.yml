@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 env:
@@ -55,7 +55,7 @@ jobs:
     name: Deploy to Production
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Checkout code
@@ -74,8 +74,8 @@ jobs:
             cd /home/ubuntu/prod/hoosat-proxy
             
             # Download docker-compose and deploy script
-            curl -o docker-compose.prod.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.prod.yml
-            curl -o deploy.sh https://raw.githubusercontent.com/${{ github.repository }}/main/deploy.sh
+            curl -o docker-compose.prod.yml https://raw.githubusercontent.com/${{ github.repository }}/master/docker-compose.prod.yml
+            curl -o deploy.sh https://raw.githubusercontent.com/${{ github.repository }}/master/deploy.sh
             chmod +x deploy.sh
             
             # Login to GitHub Container Registry
