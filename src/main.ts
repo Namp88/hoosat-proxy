@@ -21,8 +21,10 @@ async function bootstrap() {
   const apiVersion = configService.get('hoosat.api.version');
   const port = configService.get('PORT') || 3000;
 
-  // Set global prefix
-  app.setGlobalPrefix(`${apiPrefix}/${apiVersion}`);
+  // Set global prefix, but exclude AppController
+  app.setGlobalPrefix(`${apiPrefix}/${apiVersion}`, {
+    exclude: ['/', 'info'],
+  });
 
   // Enable CORS
   app.enableCors({

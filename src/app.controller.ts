@@ -1,4 +1,4 @@
-import { Controller, Get, Redirect } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 
 /**
@@ -12,9 +12,8 @@ export class AppController {
    * Redirect root path to API documentation
    */
   @Get()
-  @Redirect('/docs', 302)
-  getRoot() {
-    return;
+  getRoot(@Res() res) {
+    return res.redirect('/docs');
   }
 
   /**

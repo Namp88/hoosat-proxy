@@ -22,7 +22,7 @@ import { TransactionModule } from './modules/transaction/transaction.module';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [hoosatConfig],
-      envFilePath: ['.env.example', '.env'],
+      envFilePath: ['.env'],
     }),
 
     // Shared module with global services
