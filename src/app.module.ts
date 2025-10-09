@@ -5,6 +5,7 @@ import hoosatConfig from './config/hoosat.config';
 import { SharedModule } from './shared/shared.module';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
+import { AppController } from './app.controller';
 import { NodeModule } from './modules/node/node.module';
 import { BlockchainModule } from './modules/blockchain/blockchain.module';
 import { NetworkModule } from './modules/network/network.module';
@@ -35,6 +36,7 @@ import { TransactionModule } from './modules/transaction/transaction.module';
     MempoolModule,
     TransactionModule,
   ],
+  controllers: [AppController],
   providers: [
     // Global response interceptor
     {
