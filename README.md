@@ -162,19 +162,6 @@ Error responses:
 }
 ```
 
-## 🧪 Testing
-
-```bash
-# Unit tests
-npm run test
-
-# E2E tests
-npm run test:e2e
-
-# Test coverage
-npm run test:cov
-```
-
 ## 🚀 Deployment
 
 ### Production Build
@@ -356,12 +343,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Open an [Issue](https://github.com/Namp88/hoosat-proxy/issues) for bug reports or feature requests
 - Join our [Discord](https://discord.gg/hoosat) for community support
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Namp88/hoosat-proxy&type=Date)](https://star-history.com/#Namp88/hoosat-proxy&Date)
 
 ---
 
