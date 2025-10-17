@@ -102,7 +102,7 @@ Once the server is running, visit:
 
 - `GET /api/v1/node/info` - Get node information
 - `GET /api/v1/node/blue-score` - Get virtual selected parent blue score
-- `GET /api/v1/node/hashrate` - Estimate network hashrate
+- `GET /api/v1/node/estimate-hashrate` - Estimate network hashrate
 - `GET /api/v1/node/coin-supply` - Get coin supply information
 - `GET /api/v1/node/health` - Health check
 
@@ -131,10 +131,12 @@ Once the server is running, visit:
 - `GET /api/v1/mempool/entry/:txId` - Get mempool entry by transaction ID
 - `GET /api/v1/mempool/entries` - Get all mempool entries
 - `POST /api/v1/mempool/entries-by-addresses` - Get entries by addresses
+- `GET /api/v1/mempool/fee-estimate` - Get fee estimate
 
 ### Transaction
 
 - `POST /api/v1/transaction/submit` - Submit signed transaction
+- `GET /api/v1/transaction/:txId/status` - Get transaction status (PENDING/CONFIRMED/NOT_FOUND)
 
 ## 📝 Response Format
 
@@ -294,6 +296,72 @@ curl -X POST http://localhost:3000/api/v1/transaction/submit \
     "payload": ""
   }'
 ```
+
+### Get transaction status
+
+```bash
+curl "http://localhost:3000/api/v1/transaction/abc123def456.../status?senderAddress=hoosat:qzsender...&recipientAddress=hoosat:qzrecipient..."
+```
+
+**Response example (PENDING):**
+```json
+{
+  "success": true,
+  "data": {
+    "status": "PENDING",
+    "details": {
+      "txId": "abc123def456...",
+      "inMempool": true,
+      "isOrphan": false,
+      "fee": "1000000",
+      "mass": "250",
+      "message": "Transaction is in mempool, waiting for confirmation"
+    }
+  },
+  "timestamp": "2025-01-10T12:00:00.000Z",
+  "path": "/api/v1/transaction/abc123def456.../status"
+}
+```
+
+**Response example (CONFIRMED):**
+```json
+{
+  "success": true,
+  "data": {
+    "status": "CONFIRMED",
+    "details": {
+      "txId": "abc123def456...",
+      "inMempool": false,
+      "blockDaaScore": "123456",
+      "confirmedAmount": "50000000",
+      "confirmedAddress": "hoosat:qzrecipient456...",
+      "isCoinbase": false,
+      "message": "Transaction confirmed in blockchain"
+    }
+  },
+  "timestamp": "2025-01-10T12:00:00.000Z",
+  "path": "/api/v1/transaction/abc123def456.../status"
+}
+```
+
+**Response example (NOT_FOUND):**
+```json
+{
+  "success": true,
+  "data": {
+    "status": "NOT_FOUND",
+    "details": {
+      "txId": "abc123def456...",
+      "inMempool": false,
+      "message": "Transaction not found in mempool or UTXOs. Possible reasons: transaction was rejected, UTXOs already spent, or node does not have UTXO index enabled (--utxoindex flag)"
+    }
+  },
+  "timestamp": "2025-01-10T12:00:00.000Z",
+  "path": "/api/v1/transaction/abc123def456.../status"
+}
+```
+
+**Note:** Node must be started with `--utxoindex` flag for CONFIRMED status detection.
 
 ### Check health
 
