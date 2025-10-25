@@ -4,6 +4,8 @@ import { HoosatClientService } from '@client/client.service';
 import { SubmitTransactionDto } from './dto/submit-transaction.dto';
 import { GetTransactionStatusDto } from './dto/get-transaction-status.dto';
 import { TransactionStatusResponseDto } from './dto/transaction-status-response.dto';
+import { CalculateMinFeeDto, CalculateMinFeeResponseDto } from './dto/calculate-min-fee.dto';
+import { HoosatCrypto } from 'hoosat-sdk';
 
 /**
  * Transaction operations endpoints
@@ -105,5 +107,79 @@ export class TransactionController {
       query.senderAddress,
       query.recipientAddress,
     );
+  }
+
+  /**
+   * Calculate minimum transaction fee
+   */
+  @Post('calculate-min-fee')
+  @ApiOperation({
+    summary: 'Calculate minimum transaction fee',
+    description:
+      'Calculates the minimum required fee for a transaction using MASS-based formula. ' +
+      'Supports both automatic mode (provide address to fetch UTXOs) and manual mode (provide inputs/outputs count).',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Minimum fee calculated successfully',
+    type: CalculateMinFeeResponseDto,
+    schema: {
+      example: {
+        success: true,
+        data: {
+          minFee: '6653',
+          inputs: 5,
+          outputs: 2,
+          payloadSize: 0,
+          method: 'automatic',
+        },
+        timestamp: '2025-01-10T12:00:00.000Z',
+        path: '/api/v1/transaction/calculate-min-fee',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid request - must provide either address OR (inputs and outputs)',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async calculateMinFee(@Body() dto: CalculateMinFeeDto): Promise<CalculateMinFeeResponseDto> {
+    const payloadSize = dto.payloadSize ?? 0;
+
+    // Automatic mode: calculate based on address UTXOs
+    if (dto.address) {
+      const minFee = await this.hoosatClient.getClient().calculateMinFee(dto.address, payloadSize);
+
+      // Get UTXOs to know the actual counts
+      const utxosResult = await this.hoosatClient.getClient().getUtxosByAddresses([dto.address]);
+      const utxosCount = utxosResult.ok && utxosResult.result ? utxosResult.result.utxos.length : 0;
+
+      return {
+        minFee,
+        inputs: utxosCount,
+        outputs: 2, // Standard: recipient + change
+        payloadSize,
+        method: 'automatic',
+      };
+    }
+
+    // Manual mode: calculate based on provided inputs/outputs
+    if (dto.inputs !== undefined && dto.outputs !== undefined) {
+      const minFee = HoosatCrypto.calculateMinFee(dto.inputs, dto.outputs, payloadSize);
+
+      return {
+        minFee,
+        inputs: dto.inputs,
+        outputs: dto.outputs,
+        payloadSize,
+        method: 'manual',
+      };
+    }
+
+    // Neither mode provided
+    throw new Error('Must provide either "address" for automatic mode OR both "inputs" and "outputs" for manual mode');
   }
 }

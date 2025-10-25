@@ -2,7 +2,6 @@ import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { HoosatClientService } from '@client/client.service';
 import { GetMempoolEntriesDto, GetMempoolEntriesByAddressesDto } from './dto/mempool.dto';
-import { FeePriority, HoosatFeeEstimator } from 'hoosat-sdk';
 
 /**
  * Mempool operations endpoints
@@ -204,63 +203,4 @@ export class MempoolController {
       .getMempoolEntriesByAddresses(dto.addresses, dto.includeOrphanPool ?? false, dto.filterTransactionPool ?? false);
   }
 
-  @Get('fee-estimate')
-  @ApiOperation({
-    summary: 'Get estimate fee',
-    description: 'Estimates fee for a transaction using mass-based calculation',
-  })
-  @ApiQuery({
-    name: 'priority',
-    required: true,
-    type: String,
-    description: `Fee priority level. Possible values: ${FeePriority.Low}, ${FeePriority.Normal}, ${FeePriority.High}, ${FeePriority.Urgent}.`,
-    example: FeePriority.Normal,
-    default: FeePriority.Normal,
-  })
-  @ApiQuery({
-    name: 'inputs',
-    required: false,
-    type: Number,
-    description: 'Number of transaction inputs',
-    example: 1,
-    default: 1,
-  })
-  @ApiQuery({
-    name: 'outputs',
-    required: false,
-    type: Number,
-    description: 'Number of transaction outputs',
-    example: 1,
-    default: 1,
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Estimate fee retrieved successfully',
-    schema: {
-      example: {
-        success: true,
-        data: {
-          success: true,
-          data: {
-            feeRate: 1,
-            totalFee: '2500',
-            priority: 'normal',
-            percentile: 0,
-            basedOnSamples: 0,
-          },
-          timestamp: 1760039577876,
-          path: '/api/v1/mempool/fee-estimate?priority=normal&inputs=1&outputs=1',
-        },
-      },
-    },
-  })
-  async getFeeRecommendation(
-    @Query('priority') priority: FeePriority,
-    @Query('inputs') inputs: number = 1,
-    @Query('outputs') outputs: number = 1
-  ) {
-    const feeEstimator = new HoosatFeeEstimator(this.hoosatClient.getClient());
-
-    return feeEstimator.estimateFee(priority, inputs, outputs);
-  }
 }
