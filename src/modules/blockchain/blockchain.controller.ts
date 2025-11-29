@@ -150,6 +150,95 @@ export class BlockchainController {
   }
 
   /**
+   * Get block by transaction ID
+   */
+  @Get('block-by-tx/:transactionId')
+  @ApiOperation({
+    summary: 'Get block by transaction ID',
+    description: 'Returns the block that contains the specified transaction. Useful for finding which block a transaction was included in.',
+  })
+  @ApiParam({
+    name: 'transactionId',
+    description: 'Transaction ID (64 hex characters)',
+    example: 'bed378cdea445ef2b92ac897c7ae41902026b0116ff9b80139d84b3d3a4036ff',
+  })
+  @ApiQuery({
+    name: 'includeTransactions',
+    required: false,
+    type: Boolean,
+    description: 'Include full transaction data in response',
+    example: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Block containing the transaction retrieved successfully',
+    schema: {
+      example: {
+        success: true,
+        data: {
+          transactions: [
+            {
+              inputs: [],
+              outputs: [
+                {
+                  amount: '81649658',
+                  scriptPublicKey: {
+                    version: 0,
+                    scriptPublicKey: '206bd6ab37f28d83b57291055ffcc20178b9eacad709fd56a633bcf742cd4fcf41ac',
+                  },
+                  verboseData: {
+                    scriptPublicKeyType: 'pubkey',
+                    scriptPublicKeyAddress: 'hoosat:qp4ad2eh72xc8dtjjyz4llxzq9utn6k26uyl644xxw70wskdfl85zsqj9k4vz',
+                  },
+                },
+              ],
+              version: 0,
+              lockTime: '0',
+              subnetworkId: '0100000000000000000000000000000000000000',
+              gas: '0',
+              verboseData: {
+                transactionId: 'bed378cdea445ef2b92ac897c7ae41902026b0116ff9b80139d84b3d3a4036ff',
+                hash: '37bb6ab1408c2a8c64b71d2c4176ffa1cb76f962bbcd6bbd061092096d3a5292',
+                mass: '0',
+                blockHash: 'be2a28c935f24dd2f7d0638b2893c961a1d78a567d2541a9229e3b9e4095cf93',
+                blockTime: '1760029024561',
+              },
+            },
+          ],
+          header: {
+            parents: [{ parentHashes: ['e69bbe78a096d17c5a3f915dc4606768b5976f14460ac7e2740c427c5e807f24'] }],
+            version: 5,
+            hashMerkleRoot: '37bb6ab1408c2a8c64b71d2c4176ffa1cb76f962bbcd6bbd061092096d3a5292',
+            timestamp: '1760029024561',
+            bits: 490169269,
+            nonce: '11676241686759156909',
+            daaScore: '78888773',
+            blueScore: '76327178',
+          },
+          verboseData: {
+            hash: 'be2a28c935f24dd2f7d0638b2893c961a1d78a567d2541a9229e3b9e4095cf93',
+            difficulty: 38770604.55,
+            isChainBlock: true,
+          },
+        },
+        timestamp: 1760036711452,
+        path: '/api/v1/blockchain/block-by-tx/bed378cdea445ef2b92ac897c7ae41902026b0116ff9b80139d84b3d3a4036ff',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Transaction not found in any block',
+  })
+  async getBlockByTransactionId(
+    @Param('transactionId') transactionId: string,
+    @Query('includeTransactions') includeTransactions?: string,
+  ) {
+    const includeTx = includeTransactions === 'false' ? false : true;
+    return this.hoosatClient.getClient().getBlockByTransactionId(transactionId, includeTx);
+  }
+
+  /**
    * Get multiple blocks
    */
   @Get('blocks/:lowHash')
