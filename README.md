@@ -73,6 +73,11 @@ HOOSAT_HOST=127.0.0.1    # Your Hoosat node host
 HOOSAT_PORT=42420         # Your Hoosat node port
 HOOSAT_TIMEOUT=10000
 
+# Multiple nodes with automatic failover (overrides HOOSAT_HOST/HOOSAT_PORT).
+# Comma-separated host:port list, port defaults to 42420, the first node is primary.
+# Nodes must be synced and run with --utxoindex.
+HOOSAT_NODES=htn.foztor.net:42420,htn-lon.foztor.net:42420
+
 # API
 API_PREFIX=api
 API_VERSION=v1
@@ -197,9 +202,8 @@ pm2 startup
 Make sure to set appropriate values in your production `.env`:
 
 ```bash
-# Use production Hoosat node
-HOOSAT_HOST=your-production-node.com
-HOOSAT_PORT=42420
+# Use several production Hoosat nodes with failover
+HOOSAT_NODES=node-1.example.com:42420,node-2.example.com:42420
 
 # Adjust timeouts for production
 HOOSAT_TIMEOUT=15000

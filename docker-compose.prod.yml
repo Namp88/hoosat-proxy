@@ -15,6 +15,10 @@ services:
       HOOSAT_HOST: ${HOOSAT_HOST:-127.0.0.1}
       HOOSAT_PORT: ${HOOSAT_PORT:-42420}
       HOOSAT_TIMEOUT: ${HOOSAT_TIMEOUT:-10000}
+      # Comma-separated host:port list with failover, overrides HOOSAT_HOST/HOOSAT_PORT.
+      # The deploy workflow copies this file to the server, so this default is the prod node list.
+      # Set HOOSAT_NODES= (empty) in the server .env to fall back to the single HOOSAT_HOST node.
+      HOOSAT_NODES: ${HOOSAT_NODES-htn.foztor.net:42420,htn-lon.foztor.net:42420,51.89.232.58:42420,188.220.202.0:42420,194.163.168.43:42420,91.66.117.194:42420}
 
       # API Configuration
       API_PREFIX: ${API_PREFIX:-api}
