@@ -15,6 +15,8 @@ services:
       HOOSAT_HOST: ${HOOSAT_HOST:-127.0.0.1}
       HOOSAT_PORT: ${HOOSAT_PORT:-42420}
       HOOSAT_TIMEOUT: ${HOOSAT_TIMEOUT:-10000}
+      # Comma-separated host:port list with failover, overrides HOOSAT_HOST/HOOSAT_PORT
+      HOOSAT_NODES: ${HOOSAT_NODES:-}
 
       # API Configuration
       API_PREFIX: ${API_PREFIX:-api}
